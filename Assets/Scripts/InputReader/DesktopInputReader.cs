@@ -15,14 +15,13 @@ namespace InputReader
         
         public float HorizontalDirection => Input.GetAxis("Horizontal");
         public float VerticalDirection => Input.GetAxis("Vertical");
+        public float HorizontalRotation => Input.GetAxis("Mouse X");
+        public float VerticalRotation => Input.GetAxis("Mouse Y");
         public bool Attack { get; private set; }
 
         private void OnUpdate()
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                Debug.Log("Fire");
-            }
+            Attack = Input.GetButton("Fire1");
         }
     }
 }

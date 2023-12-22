@@ -9,6 +9,7 @@ namespace Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerEntity : MonoBehaviour
     {
+        [SerializeField] private Camera camera;
         private PlayerMovement _movement;
         private Rigidbody _rigidbody;
         private IInputReader _inputReader;
@@ -25,7 +26,10 @@ namespace Player
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _movement = new PlayerMovement(_rigidbody, _playerStats);
+            _movement = new PlayerMovement(_rigidbody, _playerStats, camera);
+            
+            // REMOVE THIS
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void OnFixedUpdate()
@@ -36,6 +40,7 @@ namespace Player
         private void HandleMovement()
         {
             _movement.Move(_inputReader.HorizontalDirection, _inputReader.VerticalDirection);
+            _movement.Rotate(_inputReader.HorizontalRotation, _inputReader.VerticalRotation);
         }
     }
 }

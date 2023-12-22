@@ -2,6 +2,7 @@
 {
     public class PlayerStats
     {
-        public float Speed = 5f;
+        public float Speed = 2.5f;
+        public float TurnSpeed = 20f;
     }
 }
