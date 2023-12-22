@@ -36,6 +36,15 @@ namespace Player
             _currentVerticalAngle = Mathf.Clamp(_currentVerticalAngle, -90f, 90f);
             _camera.transform.localRotation = Quaternion.Euler(_currentVerticalAngle, 0f, 0f);
         }
-        
+
+        public void Jump(bool shouldJump)
+        {
+            if (shouldJump)
+            {
+                var movement = _rigidbody.velocity;
+                movement.y = _stats.JumpForce;
+                _rigidbody.velocity = movement;
+            }
+        }
     }
 }

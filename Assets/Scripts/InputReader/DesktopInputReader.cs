@@ -18,10 +18,12 @@ namespace InputReader
         public float HorizontalRotation => Input.GetAxis("Mouse X");
         public float VerticalRotation => Input.GetAxis("Mouse Y");
         public bool Attack { get; private set; }
+        public bool Jump { get; private set; }
 
         private void OnUpdate()
         {
             Attack = Input.GetButton("Fire1");
+            Jump = Input.GetButton("Jump");
         }
     }
 }

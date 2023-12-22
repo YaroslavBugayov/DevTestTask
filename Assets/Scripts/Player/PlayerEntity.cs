@@ -35,12 +35,18 @@ namespace Player
         private void OnFixedUpdate()
         {
             HandleMovement();
+            HandleJump();
         }
 
         private void HandleMovement()
         {
             _movement.Move(_inputReader.HorizontalDirection, _inputReader.VerticalDirection);
             _movement.Rotate(_inputReader.HorizontalRotation, _inputReader.VerticalRotation);
+        }
+
+        private void HandleJump()
+        {
+            _movement.Jump(_inputReader.Jump);
         }
     }
 }
