@@ -12,6 +12,11 @@ namespace Installers
         
         public override void InstallBindings()
         {
+            Container
+                .Bind<PlayerStats>()
+                .FromNew()
+                .AsCached();
+            
             var playerInstance = Container
                 .InstantiatePrefabForComponent<PlayerEntity>(playerPrefab, spawnPoint.position, Quaternion.identity, null);
 
@@ -19,6 +24,8 @@ namespace Installers
                 .Bind<PlayerEntity>()
                 .FromInstance(playerInstance)
                 .AsSingle();
+
+            
         }
     }
 }
