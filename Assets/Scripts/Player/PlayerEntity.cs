@@ -24,11 +24,6 @@ namespace Player
         public void Construct(IProjectUpdater projectUpdater, IInputReader inputReader, PlayerStats playerStats)
         {
             _inputReader = inputReader;
-            if (_inputReader is IDisposable disposableInputReader)
-            {
-                _disposables.Add(disposableInputReader);
-            }
-            
             _playerStats = playerStats;
             _projectUpdater = projectUpdater;
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;

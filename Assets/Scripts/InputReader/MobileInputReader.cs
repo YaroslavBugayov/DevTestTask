@@ -10,5 +10,9 @@ namespace InputReader
         public float VerticalRotation { get; private set;  }
         public bool Attack { get; private set; }
         public bool Jump { get; }
+        public void Dispose()
+        {
+            
+        }
     }
 }

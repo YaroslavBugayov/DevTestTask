@@ -1,6 +1,8 @@
-﻿namespace InputReader
+﻿using System;
+
+namespace InputReader
 {
-    public interface IInputReader
+    public interface IInputReader: IDisposable
     {
         float HorizontalDirection { get; }
         float VerticalDirection { get; }

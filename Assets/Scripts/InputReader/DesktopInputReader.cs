@@ -5,7 +5,7 @@ using Zenject;
 
 namespace InputReader
 {
-    public class DesktopInputReader : IInputReader, IDisposable
+    public class DesktopInputReader : IInputReader
     {
         private IProjectUpdater _projectUpdater;
         
