@@ -10,10 +10,20 @@ namespace Installers
 {
     public class EnemyInstaller : MonoInstaller
     {
+        [SerializeField] private Transform[] spawnPoints;
+        [SerializeField] private Transform spawnParent;
+        
         public override void InstallBindings()
         {
-            Container.BindFactory<EnemyTypes, IEnemyEntity, EnemyFactory>().FromFactory<CustomEnemyFactory>();
-            Container.Bind<EnemySpawner>().AsSingle().NonLazy();
+            Container
+                .BindFactory<EnemyTypes, Vector3, Transform, IEnemyEntity, EnemyFactory>()
+                .FromFactory<CustomEnemyFactory>();
+            
+            Container
+                .Bind<EnemySpawner>()
+                .AsSingle()
+                .WithArguments(spawnPoints, spawnParent)
+                .NonLazy();
         }
     }
 }

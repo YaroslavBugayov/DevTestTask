@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Enemy.Factory
 {
-    public class CustomEnemyFactory : IFactory<EnemyTypes, IEnemyEntity>
+    public class CustomEnemyFactory : IFactory<EnemyTypes, Vector3, Transform, IEnemyEntity>
     {
         private readonly DiContainer _diContainer;
         private GameObject _blueEnemy;
@@ -26,12 +26,18 @@ namespace Enemy.Factory
             _redEnemy = (GameObject) Resources.Load(RedEnemyPath);
         }
             
-        public IEnemyEntity Create(EnemyTypes enemyType)
+        public IEnemyEntity Create(EnemyTypes enemyType, Vector3 position, Transform parent)
         {
             return enemyType switch
             {
-                EnemyTypes.EnemyBlue => _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(_blueEnemy),
-                EnemyTypes.EnemyRed => _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(_redEnemy),
+                EnemyTypes.EnemyBlue => 
+                    _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(
+                        _blueEnemy, position, Quaternion.identity, parent
+                    ),
+                EnemyTypes.EnemyRed => 
+                    _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(
+                        _redEnemy, position, Quaternion.identity, parent
+                    ),
                 _ => throw new Exception("Enemy type not found")
             };
         }
