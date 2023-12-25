@@ -1,4 +1,5 @@
 ﻿using System;
+using Bullet;
 using UnityEngine;
 using Zenject;
 
@@ -10,7 +11,7 @@ namespace Player
         private readonly PlayerStats _stats;
         private readonly Camera _camera;
         private float _currentVerticalAngle = 0;
-        
+
         public PlayerMovement(Rigidbody rigidbody, PlayerStats playerStats, Camera camera)
         {
             _rigidbody = rigidbody;

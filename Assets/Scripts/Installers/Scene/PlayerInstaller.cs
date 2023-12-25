@@ -1,3 +1,4 @@
+using Bullet;
 using Player;
 using UnityEngine;
 using Zenject;
@@ -15,6 +16,10 @@ namespace Installers.Scene
                 .Bind<PlayerStats>()
                 .FromNew()
                 .AsCached();
+            
+            Container
+                .BindFactory<GameObject, Vector3, Quaternion, BulletEntity, BulletFactory>()
+                .AsSingle();
             
             var playerInstance = Container
                 .InstantiatePrefabForComponent<PlayerEntity>(playerPrefab, spawnPoint.position, Quaternion.identity, null);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Bullet;
 using Core;
 using Core.Services;
 using InputReader;
@@ -12,20 +13,33 @@ namespace Player
     public class PlayerEntity : MonoBehaviour, IDisposable
     {
         [SerializeField] private new Camera camera;
-        private PlayerMovement _movement;
+        [SerializeField] private BulletEntity bulletPrefab;
+        
         private Rigidbody _rigidbody;
-        private IInputReader _inputReader;
+        
+        private PlayerMovement _movement;
         private PlayerStats _playerStats;
+        private PlayerShooting _shooting;
+        
+        private IInputReader _inputReader;
         private IProjectUpdater _projectUpdater;
         private GroundRaycaster _groundRaycaster;
+        private BulletFactory _bulletFactory;
+        
         private List<IDisposable> _disposables;
 
         [Inject]
-        public void Construct(IProjectUpdater projectUpdater, IInputReader inputReader, PlayerStats playerStats)
+        public void Construct(
+            IProjectUpdater projectUpdater,
+            IInputReader inputReader,
+            PlayerStats playerStats,
+            BulletFactory bulletFactory)
         {
             _inputReader = inputReader;
             _playerStats = playerStats;
+            _bulletFactory = bulletFactory;
             _projectUpdater = projectUpdater;
+            
             _disposables = new List<IDisposable>();
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
         }
@@ -34,6 +48,7 @@ namespace Player
         {
             _rigidbody = GetComponent<Rigidbody>();
             _movement = new PlayerMovement(_rigidbody, _playerStats, camera);
+            _shooting = new PlayerShooting(_playerStats, camera, _bulletFactory, bulletPrefab, transform);
             
             _groundRaycaster = new GroundRaycaster(transform, _projectUpdater);
             _disposables.Add(_groundRaycaster);
@@ -46,6 +61,7 @@ namespace Player
         {
             HandleMovement();
             HandleJump();
+            HandleShooting();
         }
 
         private void OnDestroy()
@@ -62,6 +78,11 @@ namespace Player
         private void HandleJump()
         {
             _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
+        }
+
+        private void HandleShooting()
+        {
+            _shooting.Shoot(_inputReader.Attack);
         }
 
         public void Dispose()
