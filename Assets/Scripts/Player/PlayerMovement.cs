@@ -37,9 +37,9 @@ namespace Player
             _camera.transform.localRotation = Quaternion.Euler(_currentVerticalAngle, 0f, 0f);
         }
 
-        public void Jump(bool shouldJump)
+        public void Jump(bool shouldJump, bool isGrounded)
         {
-            if (shouldJump)
+            if (shouldJump && isGrounded)
             {
                 var movement = _rigidbody.velocity;
                 movement.y = _stats.JumpForce;

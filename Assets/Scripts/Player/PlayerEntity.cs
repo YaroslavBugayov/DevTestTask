@@ -1,4 +1,5 @@
 using System;
+using Core;
 using Core.Services;
 using InputReader;
 using UnityEngine;
@@ -7,26 +8,30 @@ using Zenject;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerEntity : MonoBehaviour
+    public class PlayerEntity : MonoBehaviour, IDisposable
     {
         [SerializeField] private Camera camera;
         private PlayerMovement _movement;
         private Rigidbody _rigidbody;
         private IInputReader _inputReader;
         private PlayerStats _playerStats;
+        private IProjectUpdater _projectUpdater;
+        private GroundRaycaster _groundRaycaster;
 
         [Inject]
         public void Construct(IProjectUpdater projectUpdater, IInputReader inputReader, PlayerStats playerStats)
         {
             _inputReader = inputReader;
             _playerStats = playerStats;
-            projectUpdater.FixedUpdateCalled += OnFixedUpdate;
+            _projectUpdater = projectUpdater;
+            _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
         }
         
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
             _movement = new PlayerMovement(_rigidbody, _playerStats, camera);
+            _groundRaycaster = new GroundRaycaster(transform, _projectUpdater);
             
             // REMOVE THIS
             Cursor.lockState = CursorLockMode.Locked;
@@ -46,7 +51,12 @@ namespace Player
 
         private void HandleJump()
         {
-            _movement.Jump(_inputReader.Jump);
+            _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
+        }
+
+        public void Dispose()
+        {
+            _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
         }
     }
 }

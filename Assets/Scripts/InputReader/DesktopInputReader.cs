@@ -5,12 +5,15 @@ using Zenject;
 
 namespace InputReader
 {
-    public class DesktopInputReader : IInputReader
+    public class DesktopInputReader : IInputReader, IDisposable
     {
+        private IProjectUpdater _projectUpdater;
+        
         [Inject]
         public void Construct(IProjectUpdater projectUpdater)
         {
-            projectUpdater.UpdateCalled += OnUpdate;
+            _projectUpdater = projectUpdater;
+            _projectUpdater.UpdateCalled += OnUpdate;
         }
         
         public float HorizontalDirection => Input.GetAxis("Horizontal");
@@ -24,6 +27,11 @@ namespace InputReader
         {
             Attack = Input.GetButton("Fire1");
             Jump = Input.GetButton("Jump");
+        }
+        
+        public void Dispose()
+        {
+            _projectUpdater.UpdateCalled -= OnUpdate;
         }
     }
 }
