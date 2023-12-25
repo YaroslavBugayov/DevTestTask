@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core;
 using Core.Services;
 using InputReader;
@@ -17,11 +18,17 @@ namespace Player
         private PlayerStats _playerStats;
         private IProjectUpdater _projectUpdater;
         private GroundRaycaster _groundRaycaster;
+        private List<IDisposable> _disposables;
 
         [Inject]
         public void Construct(IProjectUpdater projectUpdater, IInputReader inputReader, PlayerStats playerStats)
         {
             _inputReader = inputReader;
+            if (_inputReader is IDisposable disposableInputReader)
+            {
+                _disposables.Add(disposableInputReader);
+            }
+            
             _playerStats = playerStats;
             _projectUpdater = projectUpdater;
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
@@ -31,7 +38,9 @@ namespace Player
         {
             _rigidbody = GetComponent<Rigidbody>();
             _movement = new PlayerMovement(_rigidbody, _playerStats, camera);
+            
             _groundRaycaster = new GroundRaycaster(transform, _projectUpdater);
+            _disposables.Add(_groundRaycaster);
             
             // REMOVE THIS
             Cursor.lockState = CursorLockMode.Locked;
@@ -41,6 +50,11 @@ namespace Player
         {
             HandleMovement();
             HandleJump();
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
 
         private void HandleMovement()
@@ -57,6 +71,10 @@ namespace Player
         public void Dispose()
         {
             _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }
