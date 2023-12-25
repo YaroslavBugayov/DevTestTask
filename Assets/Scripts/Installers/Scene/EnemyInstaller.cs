@@ -1,12 +1,10 @@
-﻿using Enemy;
-using Enemy.Entities;
+﻿using Enemy.Entities;
 using Enemy.Enums;
 using Enemy.Factory;
-using Player;
 using UnityEngine;
 using Zenject;
 
-namespace Installers
+namespace Installers.Scene
 {
     public class EnemyInstaller : MonoInstaller
     {

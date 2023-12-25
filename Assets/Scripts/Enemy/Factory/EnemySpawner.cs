@@ -56,7 +56,6 @@ namespace Enemy.Factory
         private Vector3 RandomizePosition(Vector3 position)
         {
             position.x += Random.Range(-1f, 1f);
-            position.y += Random.Range(-1f, 1f);
             position.z += Random.Range(-1f, 1f);
             return position;
         }

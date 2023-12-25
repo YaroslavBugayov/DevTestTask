@@ -1,9 +1,8 @@
 using Player;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
-namespace Installers
+namespace Installers.Scene
 {
     public class PlayerInstaller : MonoInstaller
     {
@@ -19,13 +18,11 @@ namespace Installers
             
             var playerInstance = Container
                 .InstantiatePrefabForComponent<PlayerEntity>(playerPrefab, spawnPoint.position, Quaternion.identity, null);
-
+            
             Container
                 .Bind<PlayerEntity>()
                 .FromInstance(playerInstance)
                 .AsSingle();
-
-            
         }
     }
 }

@@ -1,9 +1,8 @@
-using System;
 using InputReader;
 using UnityEngine;
 using Zenject;
 
-namespace Installers
+namespace Installers.Project
 {
     public class InputsInstaller : MonoInstaller
     {

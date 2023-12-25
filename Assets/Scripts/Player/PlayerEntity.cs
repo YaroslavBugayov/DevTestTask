@@ -11,7 +11,7 @@ namespace Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerEntity : MonoBehaviour, IDisposable
     {
-        [SerializeField] private Camera camera;
+        [SerializeField] private new Camera camera;
         private PlayerMovement _movement;
         private Rigidbody _rigidbody;
         private IInputReader _inputReader;
