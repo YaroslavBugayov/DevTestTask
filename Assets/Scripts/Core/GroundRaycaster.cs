@@ -25,7 +25,6 @@ namespace Core
 
         private void OnUpdate()
         {
-            Debug.DrawRay(_target.position, Vector3.down * _raycastDistance, Color.green);
             IsGrounded = Physics.Raycast(_target.position, Vector3.down, _raycastDistance, _layerMask);
         }
         

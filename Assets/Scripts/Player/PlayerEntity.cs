@@ -26,6 +26,7 @@ namespace Player
             _inputReader = inputReader;
             _playerStats = playerStats;
             _projectUpdater = projectUpdater;
+            _disposables = new List<IDisposable>();
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
         }
         
