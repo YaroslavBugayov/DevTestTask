@@ -7,6 +7,7 @@ using Zenject;
 
 namespace Enemy.Entities
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class BlueEnemyEntity : MonoBehaviour, IEnemyEntity, IDamageable
     {
         public int Health { get; private set; } = 100;
