@@ -1,4 +1,4 @@
-﻿namespace Bullet.Enums
+﻿namespace Enemy.Enums
 {
     public enum RedEnemyState
     {

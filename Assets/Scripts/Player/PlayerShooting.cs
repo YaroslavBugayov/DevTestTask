@@ -46,8 +46,14 @@ namespace Player
         private void SpawnBullet()
         {
             Vector3 position = _camera.transform.position + _camera.transform.forward * 0.1f;
-            BulletEntity bullet = _bulletFactory.Create(BulletType.PlayerBullet, position, _playerTransform.rotation);
-            bullet.GetComponent<Rigidbody>().AddForce(_camera.transform.forward * _playerStats.BulletSpeed, ForceMode.Impulse);
+            IBulletEntity bullet = _bulletFactory.Create(BulletType.PlayerBullet, position, _playerTransform.rotation);
+            BulletEntity bulletEntity = (BulletEntity) bullet;
+            if (bulletEntity)
+            {
+                bulletEntity
+                    .GetComponent<Rigidbody>()
+                    .AddForce(_camera.transform.forward * _playerStats.BulletSpeed, ForceMode.Impulse);
+            }
         }
     }
 }

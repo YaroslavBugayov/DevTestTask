@@ -20,11 +20,8 @@ namespace Installers.Scene
                 .AsCached();
             
             Container
-                .BindFactory<BulletType, Vector3, Quaternion, BulletEntity, BulletFactory>()
+                .BindFactory<BulletType, Vector3, Quaternion, IBulletEntity, BulletFactory>()
                 .FromFactory<CustomBulletFactory>();
-
-            Container.Bind<PlayerMovement>().AsSingle();
-            Container.Bind<PlayerShooting>().AsSingle();
             
             var playerInstance = Container
                 .InstantiatePrefabForComponent<PlayerEntity>(playerPrefab, spawnPoint.position, Quaternion.identity, null);

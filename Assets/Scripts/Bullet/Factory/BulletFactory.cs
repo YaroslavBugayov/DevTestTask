@@ -5,5 +5,5 @@ using Zenject;
 
 namespace Bullet.Factory
 {
-    public class BulletFactory : PlaceholderFactory<BulletType, Vector3, Quaternion, BulletEntity> { }
+    public class BulletFactory : PlaceholderFactory<BulletType, Vector3, Quaternion, IBulletEntity> { }
 }

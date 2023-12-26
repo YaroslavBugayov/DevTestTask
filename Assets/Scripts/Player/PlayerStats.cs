@@ -5,6 +5,9 @@ namespace Player
 {
     public class PlayerStats
     {
+        public Action<int> HealthChanged;
+        public Action<int> StrengthChanged;
+        
         public float Speed { get; private set; } = 2.5f;
         public float TurnSpeed { get; private set; } = 20f;
         public float JumpForce { get; private set; } = 2.5f;
@@ -15,7 +18,16 @@ namespace Player
         private const int MaxHeath = 100;
         private const int MaxStrength = 100;
 
-        public void TakeDamage(int damage) => Health = Math.Clamp(Health - damage, 0, MaxHeath);
-        public void AddStrength(int strength) => Strength = Math.Clamp(Strength + strength, 0, MaxStrength);
+        public void TakeDamage(int damage)
+        {
+            Health = Math.Clamp(Health - damage, 0, MaxHeath);
+            HealthChanged?.Invoke(Health);
+        }
+
+        public void AddStrength(int strength)
+        {
+            Strength = Math.Clamp(Strength + strength, 0, MaxStrength);
+            StrengthChanged?.Invoke(Strength);
+        }
     }
 }

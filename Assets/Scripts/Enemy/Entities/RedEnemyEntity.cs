@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Bullet.Enums;
 using Core.Services;
+using Enemy.Enums;
 using Enemy.Services;
 using Interfaces;
 using Player;
@@ -14,29 +16,31 @@ namespace Enemy.Entities
     {
         public int Health { get; private set; } = 50;
         private const int MaxHeath = 50;
-        private const float SpeedUp = 1f;
-        private const float SpeedForward = 2.5f;
         private Transform _player;
-        private RedEnemyState _state;
         private IProjectUpdater _projectUpdater;
         private ICollisionHandler _collisionHandler;
+        private RedEnemyStateService _stateService;
+        private RedEnemyMovement _movement;
+        
+        private List<IDisposable> _disposables;
         
         [Inject]
-        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater)
+        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater, RedEnemyStateService stateService)
         {
             _player = playerEntity.transform;
             _projectUpdater = projectUpdater;
-            _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
+            _stateService = stateService;
+            _disposables = new List<IDisposable>();
         }
         
         private void Awake()
         {
             _collisionHandler = new RedEnemyCollisionHandler(gameObject);
+            _movement = new RedEnemyMovement(gameObject, _stateService, _projectUpdater, _player);
+            _disposables.Add(_movement);
         }
 
-        private void Start() => StartCoroutine(nameof(State));
-
-        private void OnFixedUpdate() => transform.position = GetMovement(_state);
+        private void Start() => StartCoroutine(nameof(StateChanger));
 
         private void OnCollisionEnter(Collision collision) => _collisionHandler.HandleCollision(collision);
 
@@ -49,41 +53,21 @@ namespace Enemy.Entities
             }
         }
 
-        private IEnumerator State()
+        private IEnumerator StateChanger()
         {
-            _state = RedEnemyState.FlyingUp;
+            _stateService.SetState(RedEnemyState.FlyingUp);
             yield return new WaitForSeconds(2f);
-            _state = RedEnemyState.Pursuit;
+            _stateService.SetState(RedEnemyState.Pursuit);
         }
-
-        private Vector3 GetMovement(RedEnemyState state)
-        {
-            return state switch
-            {
-                RedEnemyState.FlyingUp => 
-                    Vector3.MoveTowards(
-                        transform.position,
-                        transform.position + Vector3.up,
-                        SpeedUp * Time.fixedDeltaTime
-                    ),
-                RedEnemyState.Pursuit => 
-                    Vector3.MoveTowards(
-                        transform.position,
-                        _player.position,
-                        SpeedForward * Time.fixedDeltaTime
-                    ),
-                RedEnemyState.FlyingForward => 
-                    Vector3.MoveTowards(
-                        transform.position,
-                        transform.position + transform.right,
-                        SpeedForward * Time.fixedDeltaTime
-                    ),
-                _ => throw new Exception("Unknown state")
-            };
-        }
-
+        
         private void OnDestroy() => Dispose();
 
-        public void Dispose() => _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
+        public void Dispose()
+        {
+            foreach (var disposable in _disposables)
+            {
+                disposable.Dispose();
+            }
+        }
     }
 }

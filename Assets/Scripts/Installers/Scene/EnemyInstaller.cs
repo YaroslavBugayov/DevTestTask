@@ -1,6 +1,7 @@
 ﻿using Enemy.Entities;
 using Enemy.Enums;
 using Enemy.Factory;
+using Enemy.Services;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,10 @@ namespace Installers.Scene
             Container
                 .BindFactory<EnemyType, Vector3, Transform, IEnemyEntity, EnemyFactory>()
                 .FromFactory<CustomEnemyFactory>();
+
+            Container
+                .Bind<RedEnemyStateService>()
+                .AsTransient();
             
             Container
                 .Bind<EnemySpawner>()
