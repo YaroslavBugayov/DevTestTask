@@ -1,4 +1,8 @@
 using Bullet;
+using Bullet.Entities;
+using Bullet.Enums;
+using Bullet.Factory;
+using Enemy.Factory;
 using Player;
 using UnityEngine;
 using Zenject;
@@ -18,8 +22,8 @@ namespace Installers.Scene
                 .AsCached();
             
             Container
-                .BindFactory<GameObject, Vector3, Quaternion, BulletEntity, BulletFactory>()
-                .AsSingle();
+                .BindFactory<BulletType, Vector3, Quaternion, BulletEntity, BulletFactory>()
+                .FromFactory<CustomBulletFactory>();
             
             var playerInstance = Container
                 .InstantiatePrefabForComponent<PlayerEntity>(playerPrefab, spawnPoint.position, Quaternion.identity, null);

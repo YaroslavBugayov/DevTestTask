@@ -14,7 +14,7 @@ namespace Installers.Scene
         public override void InstallBindings()
         {
             Container
-                .BindFactory<EnemyTypes, Vector3, Transform, IEnemyEntity, EnemyFactory>()
+                .BindFactory<EnemyType, Vector3, Transform, IEnemyEntity, EnemyFactory>()
                 .FromFactory<CustomEnemyFactory>();
             
             Container

@@ -45,7 +45,7 @@ namespace Enemy.Factory
 
             if (_spawnInterval > 6) _spawnInterval -= 2;
             
-            EnemyTypes type = Random.Range(0f, 1f) <= 0.2f ? EnemyTypes.EnemyBlue : EnemyTypes.EnemyRed;
+            EnemyType type = Random.Range(0f, 1f) <= 0.2f ? EnemyType.EnemyBlue : EnemyType.EnemyRed;
             Vector3 position;
             position = _spawnPoints.Length > 0 
                 ? _spawnPoints[Random.Range(0, _spawnPoints.Length)].position 

@@ -5,5 +5,5 @@ using Zenject;
 
 namespace Enemy.Factory
 {
-    public class EnemyFactory : PlaceholderFactory<EnemyTypes, Vector3, Transform, IEnemyEntity> { }
+    public class EnemyFactory : PlaceholderFactory<EnemyType, Vector3, Transform, IEnemyEntity> { }
 }

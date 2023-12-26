@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Bullet;
+using Bullet.Entities;
+using Bullet.Factory;
 using Core;
 using Core.Services;
 using InputReader;
@@ -13,7 +15,6 @@ namespace Player
     public class PlayerEntity : MonoBehaviour, IDisposable
     {
         [SerializeField] private new Camera camera;
-        [SerializeField] private BulletEntity bulletPrefab;
         
         private Rigidbody _rigidbody;
         
@@ -48,7 +49,7 @@ namespace Player
         {
             _rigidbody = GetComponent<Rigidbody>();
             _movement = new PlayerMovement(_rigidbody, _playerStats, camera);
-            _shooting = new PlayerShooting(_playerStats, camera, _bulletFactory, bulletPrefab, transform);
+            _shooting = new PlayerShooting(_playerStats, camera, _bulletFactory, transform);
             
             _groundRaycaster = new GroundRaycaster(transform, _projectUpdater);
             _disposables.Add(_groundRaycaster);

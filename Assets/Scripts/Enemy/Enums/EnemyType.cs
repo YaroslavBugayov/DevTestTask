@@ -1,6 +1,6 @@
 ﻿namespace Enemy.Enums
 {
-    public enum EnemyTypes
+    public enum EnemyType
     {
         EnemyRed,
         EnemyBlue
