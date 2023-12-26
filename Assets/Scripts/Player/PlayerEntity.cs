@@ -11,7 +11,7 @@ using Zenject;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerEntity : MonoBehaviour, IDisposable, IDamageable
+    public class PlayerEntity : MonoBehaviour, IDisposable, IDamageable, ILosingStrength
     {
         [SerializeField] private new Camera camera;
         
@@ -62,20 +62,19 @@ namespace Player
 
         private void OnFixedUpdate() => HandleMovement();
 
-        private void OnDestroy() => Dispose();
-
         private void HandleMovement()
         {
             _movement.Move(_inputReader.HorizontalDirection, _inputReader.VerticalDirection);
             _movement.Rotate(_inputReader.HorizontalRotation, _inputReader.VerticalRotation);
         }
-
         private void HandleJump() => _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
-
         private void HandleShooting() => _shooting.Shoot(_inputReader.Attack);
         
         public void TakeDamage(int damage) => _playerStats.TakeDamage(damage);
+        public void TakeDamageToStrength(int strengthDamage) => _playerStats.TakeDamageToStrength(strengthDamage);
 
+        private void OnDestroy() => Dispose();
+        
         public void Dispose()
         {
             _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;

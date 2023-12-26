@@ -17,10 +17,6 @@ namespace Installers.Scene
             Container
                 .BindFactory<EnemyType, Vector3, Transform, IEnemyEntity, EnemyFactory>()
                 .FromFactory<CustomEnemyFactory>();
-
-            Container
-                .Bind<RedEnemyStateService>()
-                .AsTransient();
             
             Container
                 .Bind<EnemySpawner>()

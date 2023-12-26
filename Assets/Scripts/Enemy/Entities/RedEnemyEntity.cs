@@ -16,6 +16,7 @@ namespace Enemy.Entities
     {
         public int Health { get; private set; } = 50;
         private const int MaxHeath = 50;
+        private const int Damage = 15;
         private Transform _player;
         private IProjectUpdater _projectUpdater;
         private ICollisionHandler _collisionHandler;
@@ -25,17 +26,17 @@ namespace Enemy.Entities
         private List<IDisposable> _disposables;
         
         [Inject]
-        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater, RedEnemyStateService stateService)
+        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater)
         {
             _player = playerEntity.transform;
             _projectUpdater = projectUpdater;
-            _stateService = stateService;
+            _stateService = new RedEnemyStateService();
             _disposables = new List<IDisposable>();
         }
         
         private void Awake()
         {
-            _collisionHandler = new RedEnemyCollisionHandler(gameObject);
+            _collisionHandler = new RedEnemyCollisionHandler(gameObject, Damage);
             _movement = new RedEnemyMovement(gameObject, _stateService, _projectUpdater, _player);
             _disposables.Add(_movement);
         }

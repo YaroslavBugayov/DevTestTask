@@ -23,6 +23,12 @@ namespace Player
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             HealthChanged?.Invoke(Health);
         }
+        
+        public void TakeDamageToStrength(int strengthDamage)
+        {
+            Strength = Math.Clamp(Strength - strengthDamage, 0, MaxStrength);
+            StrengthChanged?.Invoke(Strength);
+        }
 
         public void AddStrength(int strength)
         {
