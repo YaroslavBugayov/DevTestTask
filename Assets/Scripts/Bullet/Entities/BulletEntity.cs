@@ -1,4 +1,5 @@
 ﻿using System;
+using Bullet.Services;
 using Interfaces;
 using UnityEngine;
 
@@ -9,16 +10,10 @@ namespace Bullet.Entities
     {
         [SerializeField] private int damage;
         [SerializeField] private GameObject particle;
-        
-        private void OnCollisionEnter(Collision collision)
-        {
-            IDamageable target = collision.transform.GetComponent<IDamageable>();
-            target?.TakeDamage(damage);
+        private ICollisionHandler _bulletCollisionHandler;
 
-            GameObject particleInstance =Instantiate(particle, transform.position, Quaternion.identity);
-            Destroy(particleInstance, 0.2f);
-            
-            Destroy(gameObject);
-        }
+        private void Awake() => _bulletCollisionHandler = new BulletCollisionHandler(gameObject, damage, particle);
+
+        private void OnCollisionEnter(Collision collision) => _bulletCollisionHandler.HandleCollision(collision);
     }
 }

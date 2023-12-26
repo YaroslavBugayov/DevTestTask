@@ -52,17 +52,15 @@ namespace Player
             
             _groundRaycaster = new GroundRaycaster(transform, _projectUpdater);
             _disposables.Add(_groundRaycaster);
+
+            _inputReader.AttackClicked += HandleShooting;
+            _inputReader.JumpClicked += HandleJump;
             
             // REMOVE THIS
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        private void OnFixedUpdate()
-        {
-            HandleMovement();
-            HandleJump();
-            HandleShooting();
-        }
+        private void OnFixedUpdate() => HandleMovement();
 
         private void OnDestroy() => Dispose();
 
@@ -81,6 +79,8 @@ namespace Player
         public void Dispose()
         {
             _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
+            _inputReader.AttackClicked -= HandleShooting;
+            _inputReader.JumpClicked -= HandleJump;
             foreach (var disposable in _disposables)
             {
                 disposable.Dispose();

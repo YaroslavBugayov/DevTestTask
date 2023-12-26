@@ -7,6 +7,9 @@ namespace InputReader
 {
     public class DesktopInputReader : IInputReader
     {
+        public event Action JumpClicked;
+        public event Action AttackClicked;
+        
         private IProjectUpdater _projectUpdater;
         
         [Inject]
@@ -27,6 +30,9 @@ namespace InputReader
         {
             Attack = Input.GetButton("Fire1");
             Jump = Input.GetButton("Jump");
+
+            if (Attack) AttackClicked?.Invoke();
+            if (Jump) JumpClicked?.Invoke();
         }
         
         public void Dispose()

@@ -2,6 +2,7 @@
 using System.Collections;
 using Bullet.Enums;
 using Core.Services;
+using Enemy.Services;
 using Interfaces;
 using Player;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Enemy.Entities
         private Transform _player;
         private RedEnemyState _state;
         private IProjectUpdater _projectUpdater;
+        private ICollisionHandler _collisionHandler;
         
         [Inject]
         public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater)
@@ -26,31 +28,22 @@ namespace Enemy.Entities
             _projectUpdater = projectUpdater;
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
         }
-
-        private void Start()
+        
+        private void Awake()
         {
-            StartCoroutine(nameof(State));
+            _collisionHandler = new RedEnemyCollisionHandler(gameObject);
         }
 
-        private void OnFixedUpdate()
-        {
-            transform.position = GetMovement(_state);
-        }
+        private void Start() => StartCoroutine(nameof(State));
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            IDamageable player = collision.transform.GetComponent<PlayerEntity>();
-            if (player != null)
-            {
-                player.TakeDamage(15);
-                Destroy(gameObject);
-            }
-        }
+        private void OnFixedUpdate() => transform.position = GetMovement(_state);
+
+        private void OnCollisionEnter(Collision collision) => _collisionHandler.HandleCollision(collision);
 
         public void TakeDamage(int damage)
         {
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
-            if (Health <= 0)
+            if (Health == 0)
             {
                 Destroy(gameObject);
             }
@@ -89,14 +82,8 @@ namespace Enemy.Entities
             };
         }
 
-        private void OnDestroy()
-        {
-            Dispose();
-        }
-        
-        public void Dispose()
-        {
-            _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
-        }
+        private void OnDestroy() => Dispose();
+
+        public void Dispose() => _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
     }
 }

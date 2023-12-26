@@ -1,6 +1,8 @@
 ﻿using System;
 using Enemy.Entities;
 using Enemy.Enums;
+using Enemy.Services;
+using Interfaces;
 using UnityEngine;
 using Zenject;
 
@@ -28,18 +30,19 @@ namespace Enemy.Factory
             
         public IEnemyEntity Create(EnemyType enemyType, Vector3 position, Transform parent)
         {
-            return enemyType switch
+            switch (enemyType)
             {
-                EnemyType.EnemyBlue => 
-                    _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(
-                        _blueEnemy, position, Quaternion.identity, parent
-                    ),
-                EnemyType.EnemyRed => 
-                    _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(
-                        _redEnemy, position, Quaternion.identity, parent
-                    ),
-                _ => throw new Exception("Enemy type not found")
-            };
+                case EnemyType.EnemyBlue:
+                    var enemy = _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(_blueEnemy, position,
+                        Quaternion.identity, parent);
+                    _diContainer.Bind<ICollisionHandler>().To<RedEnemyCollisionHandler>().AsSingle();
+                    return enemy;
+                case EnemyType.EnemyRed:
+                    return _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(_redEnemy, position,
+                        Quaternion.identity, parent);
+                default:
+                    throw new Exception("Enemy type not found");
+            }
         }
     }
 }

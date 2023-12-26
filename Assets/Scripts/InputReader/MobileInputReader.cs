@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace InputReader
 {
     public class MobileInputReader : IInputReader
     {
+        public event Action JumpClicked;
+        public event Action AttackClicked;
+        
         public float HorizontalDirection { get; private set; }
         public float VerticalDirection { get; private set; }
         public float HorizontalRotation { get; private set; }
