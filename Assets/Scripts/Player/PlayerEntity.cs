@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-using Bullet;
-using Bullet.Entities;
 using Bullet.Factory;
 using Core;
 using Core.Services;
 using InputReader;
+using Interfaces;
 using UnityEngine;
 using Zenject;
 
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class PlayerEntity : MonoBehaviour, IDisposable
+    public class PlayerEntity : MonoBehaviour, IDisposable, IDamageable
     {
         [SerializeField] private new Camera camera;
         
@@ -65,10 +64,7 @@ namespace Player
             HandleShooting();
         }
 
-        private void OnDestroy()
-        {
-            Dispose();
-        }
+        private void OnDestroy() => Dispose();
 
         private void HandleMovement()
         {
@@ -76,15 +72,11 @@ namespace Player
             _movement.Rotate(_inputReader.HorizontalRotation, _inputReader.VerticalRotation);
         }
 
-        private void HandleJump()
-        {
-            _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
-        }
+        private void HandleJump() => _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
 
-        private void HandleShooting()
-        {
-            _shooting.Shoot(_inputReader.Attack);
-        }
+        private void HandleShooting() => _shooting.Shoot(_inputReader.Attack);
+        
+        public void TakeDamage(int damage) => _playerStats.TakeDamage(damage);
 
         public void Dispose()
         {

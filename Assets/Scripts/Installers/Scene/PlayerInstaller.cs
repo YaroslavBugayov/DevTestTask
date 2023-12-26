@@ -1,8 +1,6 @@
-using Bullet;
 using Bullet.Entities;
 using Bullet.Enums;
 using Bullet.Factory;
-using Enemy.Factory;
 using Player;
 using UnityEngine;
 using Zenject;
