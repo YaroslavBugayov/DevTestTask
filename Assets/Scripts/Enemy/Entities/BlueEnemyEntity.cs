@@ -15,13 +15,18 @@ namespace Enemy.Entities
     {
         public int Health { get; private set; } = 100;
         private const int MaxHeath = 100;
+        private const int DeathStrengthBonus = 50;
         private IProjectUpdater _projectUpdater;
         private BlueEnemyShooting _shooting;
+        private PlayerStats _playerStats;
         
         [Inject]
-        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater, BulletFactory bulletFactory)
+        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater, BulletFactory bulletFactory, PlayerStats playerStats)
         {
             _shooting = new BlueEnemyShooting(bulletFactory, transform, playerEntity.transform);
+
+            _playerStats = playerStats;
+            
             _projectUpdater = projectUpdater;
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
         }
@@ -31,6 +36,7 @@ namespace Enemy.Entities
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             if (Health <= 0)
             {
+                _playerStats.AddStrength(DeathStrengthBonus);
                 Destroy(gameObject);
             }
         }

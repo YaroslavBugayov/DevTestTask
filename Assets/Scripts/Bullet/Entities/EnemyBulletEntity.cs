@@ -11,7 +11,7 @@ namespace Bullet.Entities
     [RequireComponent(typeof(Rigidbody))]
     public class EnemyBulletEntity : MonoBehaviour, IBulletEntity, IDisposable
     {
-        private const int StrengthDamage = 15;
+        private const int StrengthDamage = 25;
         private const float Speed = 3.5f;
         private IProjectUpdater _projectUpdater;
         private Transform _playerTransform;

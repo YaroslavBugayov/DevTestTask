@@ -17,7 +17,7 @@ namespace Installers.Scene
             Container
                 .Bind<PlayerStats>()
                 .FromNew()
-                .AsCached();
+                .AsSingle();
             
             Container
                 .BindFactory<BulletType, Vector3, Quaternion, IBulletEntity, BulletFactory>()

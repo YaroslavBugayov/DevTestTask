@@ -17,19 +17,22 @@ namespace Enemy.Entities
         public int Health { get; private set; } = 50;
         private const int MaxHeath = 50;
         private const int Damage = 15;
+        private const int DeathStrengthBonus = 50;
         private Transform _player;
         private IProjectUpdater _projectUpdater;
         private ICollisionHandler _collisionHandler;
         private RedEnemyStateService _stateService;
         private RedEnemyMovement _movement;
+        private PlayerStats _playerStats;
         
         private List<IDisposable> _disposables;
         
         [Inject]
-        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater)
+        public void Construct(PlayerEntity playerEntity, IProjectUpdater projectUpdater, PlayerStats playerStats)
         {
             _player = playerEntity.transform;
             _projectUpdater = projectUpdater;
+            _playerStats = playerStats;
             _stateService = new RedEnemyStateService();
             _disposables = new List<IDisposable>();
         }
@@ -50,6 +53,7 @@ namespace Enemy.Entities
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             if (Health == 0)
             {
+                _playerStats.AddStrength(DeathStrengthBonus);
                 Destroy(gameObject);
             }
         }

@@ -35,7 +35,6 @@ namespace Enemy.Factory
                 case EnemyType.EnemyBlue:
                     var enemy = _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(_blueEnemy, position,
                         Quaternion.identity, parent);
-                    _diContainer.Bind<ICollisionHandler>().To<RedEnemyCollisionHandler>().AsSingle();
                     return enemy;
                 case EnemyType.EnemyRed:
                     return _diContainer.InstantiatePrefabForComponent<IEnemyEntity>(_redEnemy, position,

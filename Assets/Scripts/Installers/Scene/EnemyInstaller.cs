@@ -1,7 +1,6 @@
 ﻿using Enemy.Entities;
 using Enemy.Enums;
 using Enemy.Factory;
-using Enemy.Services;
 using UnityEngine;
 using Zenject;
 

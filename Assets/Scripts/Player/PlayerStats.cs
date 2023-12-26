@@ -1,5 +1,6 @@
 ﻿using System;
 using Interfaces;
+using UnityEngine;
 
 namespace Player
 {
@@ -15,8 +16,8 @@ namespace Player
         public float FireRate { get; private set; } = 2f;
         public int Health { get; private set; } = 100;
         public int Strength { get; private set; } = 50;
-        private const int MaxHeath = 100;
-        private const int MaxStrength = 100;
+        public int MaxHeath { get; private set; } = 100;
+        public int MaxStrength { get; private set; } = 100;
 
         public void TakeDamage(int damage)
         {
