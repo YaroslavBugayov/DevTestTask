@@ -53,6 +53,7 @@ namespace Enemy.Entities
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             if (Health == 0)
             {
+                _playerStats.AddKill();
                 _playerStats.AddStrength(DeathStrengthBonus);
                 Destroy(gameObject);
             }
@@ -65,7 +66,10 @@ namespace Enemy.Entities
             _stateService.SetState(RedEnemyState.Pursuit);
         }
         
-        private void OnDestroy() => Dispose();
+        private void OnDestroy()
+        {
+            Dispose();
+        }
 
         public void Dispose()
         {

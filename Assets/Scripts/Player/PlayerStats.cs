@@ -57,5 +57,7 @@ namespace Player
             Strength = 0;
             StrengthChanged?.Invoke(Strength);
         }
+
+        public void AddKill() => Killed++;
     }
 }

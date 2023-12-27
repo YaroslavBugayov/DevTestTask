@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.Services;
 using Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -11,6 +12,7 @@ namespace UI
     {
         [SerializeField] private Image healthBar, strengthBar;
         [SerializeField] private GameObject pausePanel, gameOverPanel;
+        [SerializeField] private TMP_Text enemiesKilledText;
         private PlayerStats _playerStats;
         private IProjectUpdater _projectUpdater;
         
@@ -39,6 +41,7 @@ namespace UI
 
         private void OnGameOver()
         {
+            enemiesKilledText.text += _playerStats.Killed;
             gameOverPanel.SetActive(true);
             Dispose();
             _projectUpdater.IsPaused = true;
