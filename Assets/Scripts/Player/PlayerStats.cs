@@ -22,6 +22,7 @@ namespace Player
         public int Strength { get; private set; } = 50;
         public int MaxHeath { get; private set; } = 100;
         public int MaxStrength { get; private set; } = 100;
+        public int Killed { get; private set; } = 0;
 
         [Inject]
         public void Construct(SignalBus signalBus)
