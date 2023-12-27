@@ -17,7 +17,7 @@ namespace Enemy.Entities
         public int Health { get; private set; } = 50;
         private const int MaxHeath = 50;
         private const int Damage = 15;
-        private const int DeathStrengthBonus = 50;
+        private const int DeathStrengthBonus = 15;
         private Transform _player;
         private IProjectUpdater _projectUpdater;
         private ICollisionHandler _collisionHandler;

@@ -6,6 +6,8 @@ namespace InputReader
     {
         event Action JumpClicked;
         event Action AttackClicked;
+        event Action PauseClicked;
+        event Action UltaClicked;
         
         float HorizontalDirection { get; }
         float VerticalDirection { get; }
@@ -13,5 +15,7 @@ namespace InputReader
         float VerticalRotation { get; }
         bool Attack { get; }
         bool Jump { get; }
+        bool Pause { get; }
+        bool Ulta { get; }
     }
 }

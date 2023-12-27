@@ -55,6 +55,7 @@ namespace Player
 
             _inputReader.AttackClicked += HandleShooting;
             _inputReader.JumpClicked += HandleJump;
+            _inputReader.PauseClicked += HandlePause;
             
             // REMOVE THIS
             Cursor.lockState = CursorLockMode.Locked;
@@ -69,7 +70,7 @@ namespace Player
         }
         private void HandleJump() => _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
         private void HandleShooting() => _shooting.Shoot(_inputReader.Attack);
-        
+        private void HandlePause() => _projectUpdater.IsPaused = !_projectUpdater.IsPaused;
         public void TakeDamage(int damage) => _playerStats.TakeDamage(damage);
         public void TakeDamageToStrength(int strengthDamage) => _playerStats.TakeDamageToStrength(strengthDamage);
 

@@ -9,6 +9,8 @@ namespace InputReader
     {
         public event Action JumpClicked;
         public event Action AttackClicked;
+        public event Action PauseClicked;
+        public event Action UltaClicked;
         
         private IProjectUpdater _projectUpdater;
         
@@ -17,27 +19,34 @@ namespace InputReader
         {
             _projectUpdater = projectUpdater;
             _projectUpdater.UpdateCalled += OnUpdate;
+            _projectUpdater.UpdateForPauseCalled += OnUpdateForPause;
         }
         
         public float HorizontalDirection => Input.GetAxis("Horizontal");
         public float VerticalDirection => Input.GetAxis("Vertical");
         public float HorizontalRotation => Input.GetAxis("Mouse X");
         public float VerticalRotation => Input.GetAxis("Mouse Y");
-        public bool Attack { get; private set; }
-        public bool Jump { get; private set; }
-
+        public bool Attack => Input.GetButton("Fire1");
+        public bool Jump => Input.GetButton("Jump");
+        public bool Pause => Input.GetButtonDown("Pause");
+        public bool Ulta => Input.GetButtonDown("Ulta");
+        
         private void OnUpdate()
         {
-            Attack = Input.GetButton("Fire1");
-            Jump = Input.GetButton("Jump");
-
             if (Attack) AttackClicked?.Invoke();
             if (Jump) JumpClicked?.Invoke();
+            if (Ulta) UltaClicked?.Invoke();
+        }
+
+        private void OnUpdateForPause()
+        {
+            if (Pause) PauseClicked?.Invoke();
         }
         
         public void Dispose()
         {
             _projectUpdater.UpdateCalled -= OnUpdate;
+            _projectUpdater.UpdateForPauseCalled -= OnUpdateForPause;
         }
     }
 }
