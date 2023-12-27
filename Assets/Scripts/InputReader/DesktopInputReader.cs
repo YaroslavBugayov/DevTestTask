@@ -20,6 +20,9 @@ namespace InputReader
             _projectUpdater = projectUpdater;
             _projectUpdater.UpdateCalled += OnUpdate;
             _projectUpdater.UpdateForPauseCalled += OnUpdateForPause;
+            
+            Cursor.lockState = CursorLockMode.Locked;
+            _projectUpdater.PauseStateChanged += SetCursor;
         }
         
         public float HorizontalDirection => Input.GetAxis("Horizontal");
@@ -43,10 +46,14 @@ namespace InputReader
             if (Pause) PauseClicked?.Invoke();
         }
         
+        private void SetCursor(bool isPause) =>
+            Cursor.lockState = isPause ? CursorLockMode.Confined : CursorLockMode.Locked;
+        
         public void Dispose()
         {
             _projectUpdater.UpdateCalled -= OnUpdate;
             _projectUpdater.UpdateForPauseCalled -= OnUpdateForPause;
+            _projectUpdater.PauseStateChanged -= SetCursor;
         }
     }
 }

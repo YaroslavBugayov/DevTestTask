@@ -27,5 +27,10 @@ namespace UI
         {
             _signalBus.Fire<QuitGameSignal>();
         }
+
+        public void Back()
+        {
+            _projectUpdater.IsPaused = false;
+        }
     }
 }

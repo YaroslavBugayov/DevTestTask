@@ -43,7 +43,6 @@ namespace Player
             _disposables = new List<IDisposable>();
             
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
-            _projectUpdater.PauseStateChanged += SetCursor;
         }
         
         private void Awake()
@@ -59,8 +58,6 @@ namespace Player
             _inputReader.JumpClicked += HandleJump;
             _inputReader.PauseClicked += HandlePause;
             _inputReader.UltaClicked += HandleUlta;
-            
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void OnFixedUpdate() => HandleMovement();
@@ -82,9 +79,6 @@ namespace Player
         private void HandleUlta() => _shooting.Ulta();
         
         private void HandlePause() => _projectUpdater.IsPaused = !_projectUpdater.IsPaused;
-        
-        private void SetCursor(bool isPause) =>
-            Cursor.lockState = isPause ? CursorLockMode.Confined : CursorLockMode.Locked;
         
         private void OnDestroy() => Dispose();
         
