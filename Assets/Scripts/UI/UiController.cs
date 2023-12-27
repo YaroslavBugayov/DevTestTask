@@ -1,5 +1,5 @@
 ﻿using System;
-using InputReader;
+using Core.Services;
 using Player;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,18 +12,19 @@ namespace UI
         [SerializeField] private Image healthBar, strengthBar;
         [SerializeField] private GameObject pausePanel, gameOverPanel;
         private PlayerStats _playerStats;
-        private IInputReader _inputReader;
+        private IProjectUpdater _projectUpdater;
         
         [Inject]
-        public void Construct(PlayerStats playerStats, IInputReader inputReader)
+        public void Construct(PlayerStats playerStats, IProjectUpdater projectUpdater)
         {
             _playerStats = playerStats;
-            _inputReader = inputReader;
+            _projectUpdater = projectUpdater;
             
             _playerStats.HealthChanged += ChangeHeath;
             _playerStats.StrengthChanged += ChangeStrength;
-            
-            
+            _playerStats.GameWasOver += OnGameOver;
+
+            _projectUpdater.PauseStateChanged += TogglePauseMenu;
         }
 
         private void Awake()
@@ -35,8 +36,15 @@ namespace UI
         private void ChangeHeath(int health) => healthBar.fillAmount = (float) health / _playerStats.MaxHeath;
 
         private void ChangeStrength(int strength) => strengthBar.fillAmount = (float) strength / _playerStats.MaxStrength;
-        
-        
+
+        private void OnGameOver()
+        {
+            gameOverPanel.SetActive(true);
+            Dispose();
+            _projectUpdater.IsPaused = true;
+        }
+
+        private void TogglePauseMenu(bool isPause) => pausePanel.SetActive(isPause);
 
         private void OnDestroy() => Dispose();
 
@@ -44,6 +52,7 @@ namespace UI
         {
             _playerStats.HealthChanged -= ChangeHeath;
             _playerStats.StrengthChanged -= ChangeStrength;
+            _projectUpdater.PauseStateChanged -= TogglePauseMenu;
         }
     }
 }

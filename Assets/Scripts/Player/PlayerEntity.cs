@@ -41,7 +41,9 @@ namespace Player
             _projectUpdater = projectUpdater;
             
             _disposables = new List<IDisposable>();
+            
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
+            _projectUpdater.PauseStateChanged += SetCursor;
         }
         
         private void Awake()
@@ -57,23 +59,30 @@ namespace Player
             _inputReader.JumpClicked += HandleJump;
             _inputReader.PauseClicked += HandlePause;
             
-            // REMOVE THIS
             Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void OnFixedUpdate() => HandleMovement();
 
+        public void TakeDamage(int damage) => _playerStats.TakeDamage(damage);
+        
+        public void TakeDamageToStrength(int strengthDamage) => _playerStats.TakeDamageToStrength(strengthDamage);
+        
         private void HandleMovement()
         {
             _movement.Move(_inputReader.HorizontalDirection, _inputReader.VerticalDirection);
             _movement.Rotate(_inputReader.HorizontalRotation, _inputReader.VerticalRotation);
         }
+        
         private void HandleJump() => _movement.Jump(_inputReader.Jump, _groundRaycaster.IsGrounded);
+        
         private void HandleShooting() => _shooting.Shoot(_inputReader.Attack);
+        
         private void HandlePause() => _projectUpdater.IsPaused = !_projectUpdater.IsPaused;
-        public void TakeDamage(int damage) => _playerStats.TakeDamage(damage);
-        public void TakeDamageToStrength(int strengthDamage) => _playerStats.TakeDamageToStrength(strengthDamage);
-
+        
+        private void SetCursor(bool isPause) =>
+            Cursor.lockState = isPause ? CursorLockMode.Confined : CursorLockMode.Locked;
+        
         private void OnDestroy() => Dispose();
         
         public void Dispose()
@@ -81,6 +90,7 @@ namespace Player
             _projectUpdater.FixedUpdateCalled -= OnFixedUpdate;
             _inputReader.AttackClicked -= HandleShooting;
             _inputReader.JumpClicked -= HandleJump;
+            _inputReader.PauseClicked -= HandlePause;
             foreach (var disposable in _disposables)
             {
                 disposable.Dispose();

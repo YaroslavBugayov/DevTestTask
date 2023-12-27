@@ -1,13 +1,17 @@
 ﻿using System;
 using Interfaces;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
     public class PlayerStats
     {
+        private SignalBus _signalBus;
+        
         public Action<int> HealthChanged;
         public Action<int> StrengthChanged;
+        public Action GameWasOver;
         
         public float Speed { get; private set; } = 2.5f;
         public float TurnSpeed { get; private set; } = 20f;
@@ -19,10 +23,20 @@ namespace Player
         public int MaxHeath { get; private set; } = 100;
         public int MaxStrength { get; private set; } = 100;
 
+        [Inject]
+        public void Construct(SignalBus signalBus)
+        {
+            _signalBus = signalBus;
+        }
+
         public void TakeDamage(int damage)
         {
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             HealthChanged?.Invoke(Health);
+            if (Health == 0)
+            {
+                GameWasOver?.Invoke();
+            }
         }
         
         public void TakeDamageToStrength(int strengthDamage)
