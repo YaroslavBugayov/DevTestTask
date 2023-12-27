@@ -1,8 +1,8 @@
-﻿using System;
-using Bullet;
+﻿using System.Linq;
 using Bullet.Entities;
 using Bullet.Enums;
 using Bullet.Factory;
+using Enemy.Entities;
 using UnityEngine;
 
 namespace Player
@@ -53,6 +53,33 @@ namespace Player
                 bulletEntity
                     .GetComponent<Rigidbody>()
                     .AddForce(_camera.transform.forward * _playerStats.BulletSpeed, ForceMode.Impulse);
+            }
+        }
+
+        public void Ulta()
+        {
+            if (_playerStats.Strength == 100)
+            {
+                _playerStats.ResetStrength();
+                
+                RedEnemyEntity[] redEnemies = Object.FindObjectsOfType<RedEnemyEntity>();
+                BlueEnemyEntity[] blueEnemies = Object.FindObjectsOfType<BlueEnemyEntity>();
+                EnemyBulletEntity[] bullets = Object.FindObjectsOfType<EnemyBulletEntity>();
+            
+                foreach (var enemy in redEnemies)
+                {
+                    Object.Destroy(enemy.gameObject);
+                }
+            
+                foreach (var enemy in blueEnemies)
+                {
+                    Object.Destroy(enemy.gameObject);
+                }
+                
+                foreach (var bullet in bullets)
+                {
+                    Object.Destroy(bullet.gameObject);
+                }
             }
         }
     }

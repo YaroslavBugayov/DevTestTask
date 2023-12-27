@@ -50,5 +50,11 @@ namespace Player
             Strength = Math.Clamp(Strength + strength, 0, MaxStrength);
             StrengthChanged?.Invoke(Strength);
         }
+
+        public void ResetStrength()
+        {
+            Strength = 0;
+            StrengthChanged?.Invoke(Strength);
+        }
     }
 }

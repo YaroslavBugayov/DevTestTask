@@ -58,6 +58,7 @@ namespace Player
             _inputReader.AttackClicked += HandleShooting;
             _inputReader.JumpClicked += HandleJump;
             _inputReader.PauseClicked += HandlePause;
+            _inputReader.UltaClicked += HandleUlta;
             
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -78,6 +79,8 @@ namespace Player
         
         private void HandleShooting() => _shooting.Shoot(_inputReader.Attack);
         
+        private void HandleUlta() => _shooting.Ulta();
+        
         private void HandlePause() => _projectUpdater.IsPaused = !_projectUpdater.IsPaused;
         
         private void SetCursor(bool isPause) =>
@@ -91,6 +94,8 @@ namespace Player
             _inputReader.AttackClicked -= HandleShooting;
             _inputReader.JumpClicked -= HandleJump;
             _inputReader.PauseClicked -= HandlePause;
+            _inputReader.UltaClicked -= HandleUlta;
+            
             foreach (var disposable in _disposables)
             {
                 disposable.Dispose();
