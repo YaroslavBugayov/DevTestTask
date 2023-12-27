@@ -50,9 +50,7 @@ namespace Player
             BulletEntity bulletEntity = (BulletEntity) bullet;
             if (bulletEntity)
             {
-                bulletEntity
-                    .GetComponent<Rigidbody>()
-                    .AddForce(_camera.transform.forward * _playerStats.BulletSpeed, ForceMode.Impulse);
+                bulletEntity.GetComponent<Rigidbody>().velocity = _camera.transform.forward * _playerStats.BulletSpeed;
             }
         }
 

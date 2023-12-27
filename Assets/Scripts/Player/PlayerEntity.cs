@@ -62,7 +62,7 @@ namespace Player
 
         private void OnFixedUpdate() => HandleMovement();
 
-        public void TakeDamage(int damage) => _playerStats.TakeDamage(damage);
+        public bool TakeDamage(int damage) => _playerStats.TakeDamage(damage);
         
         public void TakeDamageToStrength(int strengthDamage) => _playerStats.TakeDamageToStrength(strengthDamage);
         

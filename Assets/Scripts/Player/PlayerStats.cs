@@ -1,6 +1,4 @@
 ﻿using System;
-using Interfaces;
-using UnityEngine;
 using Zenject;
 
 namespace Player
@@ -16,7 +14,7 @@ namespace Player
         public float Speed { get; private set; } = 2.5f;
         public float TurnSpeed { get; private set; } = 20f;
         public float JumpForce { get; private set; } = 2.5f;
-        public float BulletSpeed { get; private set; } = 5f;
+        public float BulletSpeed { get; private set; } = 10f;
         public float FireRate { get; private set; } = 2f;
         public int Health { get; private set; } = 100;
         public int Strength { get; private set; } = 50;
@@ -30,14 +28,17 @@ namespace Player
             _signalBus = signalBus;
         }
 
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             HealthChanged?.Invoke(Health);
             if (Health == 0)
             {
                 GameWasOver?.Invoke();
+                return true;
             }
+
+            return false;
         }
         
         public void TakeDamageToStrength(int strengthDamage)

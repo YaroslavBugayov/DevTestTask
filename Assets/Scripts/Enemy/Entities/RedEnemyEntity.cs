@@ -48,7 +48,7 @@ namespace Enemy.Entities
 
         private void OnCollisionEnter(Collision collision) => _collisionHandler.HandleCollision(collision);
 
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             if (Health == 0)
@@ -56,7 +56,9 @@ namespace Enemy.Entities
                 _playerStats.AddKill();
                 _playerStats.AddStrength(DeathStrengthBonus);
                 Destroy(gameObject);
+                return true;
             }
+            return false;
         }
 
         private IEnumerator StateChanger()

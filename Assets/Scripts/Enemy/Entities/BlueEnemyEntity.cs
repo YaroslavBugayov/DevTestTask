@@ -31,7 +31,7 @@ namespace Enemy.Entities
             _projectUpdater.FixedUpdateCalled += OnFixedUpdate;
         }
         
-        public void TakeDamage(int damage)
+        public bool TakeDamage(int damage)
         {
             Health = Math.Clamp(Health - damage, 0, MaxHeath);
             if (Health <= 0)
@@ -39,7 +39,10 @@ namespace Enemy.Entities
                 _playerStats.AddKill();
                 _playerStats.AddStrength(DeathStrengthBonus);
                 Destroy(gameObject);
+                return true;
             }
+
+            return false;
         }
 
         private void OnFixedUpdate() => _shooting.Shoot();
