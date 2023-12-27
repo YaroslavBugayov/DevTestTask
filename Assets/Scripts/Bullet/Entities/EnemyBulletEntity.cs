@@ -9,7 +9,7 @@ using Zenject;
 namespace Bullet.Entities
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class EnemyBulletEntity : MonoBehaviour, IBulletEntity, IDisposable
+    public class EnemyBulletEntity : MonoBehaviour, IBulletEntity, IDisposable, IDamageable
     {
         private const int StrengthDamage = 25;
         private const float Speed = 3.5f;
@@ -35,6 +35,12 @@ namespace Bullet.Entities
                 _playerTransform.position,
                 Speed * Time.fixedDeltaTime
             );
+        }
+        
+        public bool TakeDamage(int damage)
+        {
+            Destroy(gameObject);
+            return false;
         }
 
         private void OnCollisionEnter(Collision collision) => _collisionHandler.HandleCollision(collision);

@@ -1,4 +1,5 @@
-﻿using Enemy.Entities;
+﻿using Bullet.Entities;
+using Enemy.Entities;
 using Interfaces;
 using Player;
 using UnityEngine;
@@ -22,6 +23,11 @@ namespace Bullet.Services
         
         public void HandleCollision(Collision collision)
         {
+            if (collision.gameObject is EnemyBulletEntity)
+            {
+                
+            }
+            
             IDamageable target = collision.transform.GetComponent<IDamageable>();
             bool isDied = target?.TakeDamage(_damage) ?? false;
 
@@ -34,7 +40,6 @@ namespace Bullet.Services
             {
                 Transform newTarget = FindNearestEnemy(redEnemies, blueEnemies);
                 Vector3 direction = (newTarget.position - _bullet.transform.position).normalized;
-                Debug.DrawRay(_bullet.transform.position, direction, Color.green);
                 _bullet.GetComponent<Rigidbody>().velocity = direction * _playerStats.BulletSpeed;
             }
             else

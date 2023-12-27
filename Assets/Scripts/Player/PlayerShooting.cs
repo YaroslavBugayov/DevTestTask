@@ -31,10 +31,10 @@ namespace Player
 
         public void Shoot(bool shouldShoot)
         {
+            _timeSinceLastShoot += Time.deltaTime;
+            
             if (shouldShoot)
             {
-                _timeSinceLastShoot += Time.deltaTime;
-                
                 if (_timeSinceLastShoot >= 1f / _playerStats.FireRate)
                 {
                     SpawnBullet();

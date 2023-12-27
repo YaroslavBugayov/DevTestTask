@@ -1,18 +1,15 @@
 ﻿using System;
-using Zenject;
 
 namespace Player
 {
     public class PlayerStats
     {
-        private SignalBus _signalBus;
-        
         public Action<int> HealthChanged;
         public Action<int> StrengthChanged;
         public Action GameWasOver;
         
         public float Speed { get; private set; } = 2.5f;
-        public float TurnSpeed { get; private set; } = 20f;
+        public float TurnSpeed { get; private set; } = 2f;
         public float JumpForce { get; private set; } = 2.5f;
         public float BulletSpeed { get; private set; } = 10f;
         public float FireRate { get; private set; } = 2f;
@@ -21,12 +18,6 @@ namespace Player
         public int MaxHeath { get; private set; } = 100;
         public int MaxStrength { get; private set; } = 100;
         public int Killed { get; private set; } = 0;
-
-        [Inject]
-        public void Construct(SignalBus signalBus)
-        {
-            _signalBus = signalBus;
-        }
 
         public bool TakeDamage(int damage)
         {
