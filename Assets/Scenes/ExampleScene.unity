@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 1586946869}
-  menuController: {fileID: 0}
+  menuController: {fileID: 776575995}
 --- !u!1 &444863521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2175,6 +2175,56 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: -50}
   m_SizeDelta: {x: 450, y: 50}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &932197705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932197707}
+  - component: {fileID: 932197706}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &932197706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932197705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6518b178b0344f0c9071d491bdd2bce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 89178429}
+  - {fileID: 583202140}
+  - {fileID: 2044158836}
+  - {fileID: 1280250313}
+  parent: {fileID: 615881688}
+--- !u!4 &932197707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932197705}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1039345207
 GameObject:
   m_ObjectHideFlags: 0
@@ -3441,12 +3491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a795db52554cf7997b67223ac6cb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints:
-  - {fileID: 89178429}
-  - {fileID: 583202140}
-  - {fileID: 2044158836}
-  - {fileID: 1280250313}
-  spawnParent: {fileID: 615881688}
+  enemySpawner: {fileID: 932197706}
 --- !u!1 &1668404042
 GameObject:
   m_ObjectHideFlags: 0
@@ -4380,6 +4425,7 @@ SceneRoots:
   - {fileID: 1888651153}
   - {fileID: 1570105245}
   - {fileID: 615881688}
+  - {fileID: 932197707}
   - {fileID: 1586946868}
   - {fileID: 776575996}
   - {fileID: 899741175}

@@ -8,8 +8,7 @@ namespace Installers.Scene
 {
     public class EnemyInstaller : MonoInstaller
     {
-        [SerializeField] private Transform[] spawnPoints;
-        [SerializeField] private Transform spawnParent;
+        [SerializeField] private EnemySpawner enemySpawner;
         
         public override void InstallBindings()
         {
@@ -19,8 +18,8 @@ namespace Installers.Scene
             
             Container
                 .Bind<EnemySpawner>()
+                .FromInstance(enemySpawner)
                 .AsSingle()
-                .WithArguments(spawnPoints, spawnParent)
                 .NonLazy();
         }
     }
